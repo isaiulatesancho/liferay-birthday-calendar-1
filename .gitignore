@@ -10,3 +10,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+portlets/birthday-portlet/docroot/css/.sass-cache/*
+
+webs/resources-importer-web/docroot/WEB-INF/classes/*
+
+portlets/birthday-portlet/docroot/WEB-INF/tld/aui.tld
+
+portlets/birthday-portlet/docroot/WEB-INF/tld/c.tld
