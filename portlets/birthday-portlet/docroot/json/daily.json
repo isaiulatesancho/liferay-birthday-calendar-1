@@ -1,0 +1,14 @@
+{
+    "users": [
+        {
+            "name": "Person 1",
+            "portrait": "//style.anu.edu.au/_anu/4/images/placeholders/person.png"
+        },
+        {
+            "name": "Person 2",
+            "portrait": "//style.anu.edu.au/_anu/4/images/placeholders/person.png"
+        }
+    ],
+    "total": 2,
+    "upcomingDate": "2016-02-28T17:51:57.523Z"
+}

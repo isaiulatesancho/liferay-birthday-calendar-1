@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+
+<sql id="birthdaysByDate" >
+<![CDATA[
+SELECT
+ {Contact_.*}
+FROM Contact_ WHERE
+(
+(EXTRACT(DAY FROM birthday) = ?)
+and
+(EXTRACT(MONTH FROM birthday) = ?)
+)
+ORDER BY firstName
+]]>
+</sql>
+
+<sql id="birthdaysByWeek_leapYear">
+SELECT * FROM (
+SELECT
+	Cont.*,
+	EXTRACT(YEAR FROM birthday) AS birthyear,
+	EXTRACT(MONTH FROM birthday) AS birthmonth,
+	EXTRACT(DAY FROM birthday) AS birthdate
+	FROM Contact_ Cont
+) Contact
+WHERE
+((birthmonth >= ?) AND (birthdate >= ?) AND (? >= birthmonth) AND (? >= birthdate))
+OR
+(? = 'true' AND ((birthmonth = ? AND ? >= birthdate) OR (birthmonth = ? AND birthdate >= ?)))
+</sql>
+
+
+<sql id="birthdaysByWeek">
+SELECT * FROM (
+SELECT
+	Cont.*,
+	EXTRACT(YEAR FROM birthday) AS birthyear,
+	EXTRACT(MONTH FROM birthday) AS birthmonth,
+	EXTRACT(DAY FROM birthday) AS birthdate
+FROM Contact_ Cont
+) Contact
+WHERE
+(birthdate != 29 OR birthmonth != 2) AND (
+((birthmonth >= ?) AND (birthdate >= ?) AND (? >= birthmonth) AND (? >= birthdate))
+OR
+((? != ?) AND ((birthmonth = ? AND   ? >= birthdate) OR (birthmonth = ? AND birthdate >= ?)))
+)
+</sql>
+<sql id="birthdaysByMonth">
+SELECT
+ {Contact_.*}
+FROM Contact_ WHERE
+((EXTRACT(MONTH FROM birthday) = ?) AND (EXTRACT(DAY FROM birthday) >= ? AND ? >= EXTRACT(DAY FROM birthday)))
+ORDER BY EXTRACT(DAY FROM birthday)
+</sql>
+<sql id="upcomingBirthday" >
+SELECT * FROM (
+SELECT
+	Cont.*,
+    EXTRACT(MONTH FROM birthday) AS birthmonth,
+	EXTRACT(DAY FROM birthday) * 1.0 AS birthdate
+FROM Contact_ Cont
+) Contact
+ INNER JOIN User_ UserRecord
+ ON (Contact.contactId=UserRecord.contactId AND UserRecord.status != 5)
+ORDER BY CASE
+    WHEN  (? > birthmonth OR (? = birthmonth AND ? >= birthdate)) THEN (1000/birthmonth + 100/birthdate)
+    ELSE (10000/birthmonth + 100/birthdate + 1000)
+END
+DESC
+</sql>
+        
+<sql id="groupedDaysByMonth_leapYear">
+ SELECT
+	 COUNT(EXTRACT(DAY FROM birthday)), 
+	 EXTRACT(DAY FROM birthday)
+ FROM Contact_ Cont
+ INNER JOIN User_ UserRecord
+ ON (Cont.contactId=UserRecord.contactId)
+ WHERE (status != 5 AND (EXTRACT(MONTH FROM birthday) = ?))
+ GROUP BY EXTRACT(DAY FROM birthday)
+</sql>
+<sql id="groupedDaysByMonth">
+ SELECT
+	 COUNT(EXTRACT(DAY FROM birthday)),
+	 EXTRACT(DAY FROM birthday)
+ FROM Contact_ Cont
+ INNER JOIN User_ UserRecord
+ ON (Cont.contactId=UserRecord.contactId)
+ WHERE
+ (29 != EXTRACT(DAY FROM birthday) OR 2 != EXTRACT(MONTH FROM birthday))
+ AND
+ (status != 5 AND (EXTRACT(MONTH FROM birthday) = ?))
+ GROUP BY EXTRACT(DAY FROM birthday)
+</sql>
+
+<!-- SQL Server queries -->
+
+<sql id="birthdaysByDate_sqlserver" >
+<![CDATA[
+SELECT
+ *
+FROM Contact_ WHERE
+(
+(DATEPART (DAY, birthday) = ?)
+and
+(DATEPART (MONTH, birthday) = ?)
+)
+ORDER BY firstName
+]]>
+</sql>
+
+
+<sql id="birthdaysByWeek_leapYear_sqlserver">
+SELECT * FROM (
+SELECT
+	Cont.*,
+	DATEPART (YEAR, birthday) AS birthyear,
+	DATEPART (MONTH, birthday) AS birthmonth,
+	DATEPART (DAY, birthday) AS birthdate
+	FROM Contact_ Cont
+) Contact
+WHERE
+((birthmonth >= ?) AND (birthdate >= ?) AND (? >= birthmonth) AND (? >= birthdate))
+OR
+(? = 'true' AND ((birthmonth = ? AND ? >= birthdate) OR (birthmonth = ? AND birthdate >= ?)))
+</sql>
+
+
+<sql id="birthdaysByWeek_sqlserver">
+SELECT * FROM (
+SELECT
+	Cont.*,
+	DATEPART (YEAR, birthday) AS birthyear,
+	DATEPART (MONTH, birthday) AS birthmonth,
+	DATEPART (DAY, birthday) AS birthdate
+FROM Contact_ Cont
+) Contact
+WHERE
+(birthdate != 29 OR birthmonth != 2) AND (
+((birthmonth >= ?) AND (birthdate >= ?) AND (? >= birthmonth) AND (? >= birthdate))
+OR
+((? != ?) AND ((birthmonth = ? AND   ? >= birthdate) OR (birthmonth = ? AND birthdate >= ?)))
+)
+</sql>
+
+<sql id="birthdaysByMonth_sqlserver">
+SELECT
+ *
+FROM Contact_ WHERE
+((DATEPART (MONTH, birthday) = ?) AND (DATEPART (DAY, birthday) >= ? AND ? >= DATEPART (DAY, birthday)))
+ORDER BY DATEPART (DAY, birthday)
+</sql>
+<sql id="upcomingBirthday_sqlserver" >
+SELECT * FROM (
+SELECT
+	Cont.*,
+    DATEPART (MONTH, birthday) AS birthmonth,
+	DATEPART (DAY, birthday) * 1.0 AS birthdate
+FROM Contact_ Cont
+) Contact
+ INNER JOIN User_ UserRecord
+ ON (Contact.contactId=UserRecord.contactId AND UserRecord.status != 5)
+ORDER BY CASE
+    WHEN  (? > birthmonth OR (? = birthmonth AND ? >= birthdate)) THEN (1000/birthmonth + 100/birthdate)
+    ELSE (10000/birthmonth + 100/birthdate + 1000)
+END
+DESC
+</sql>
+        
+<sql id="groupedDaysByMonth_leapYear_sqlserver">
+ SELECT
+	 COUNT(DATEPART (DAY, birthday)) AS counter,
+	 DATEPART (DAY, birthday) AS dayNum
+ FROM Contact_
+ INNER JOIN User_
+ ON (Contact_.contactId=User_.contactId)
+ WHERE (status != 5 AND (DATEPART (MONTH, birthday) = ?))
+ GROUP BY DATEPART (DAY, birthday)
+</sql>
+<sql id="groupedDaysByMonth_sqlserver">
+ SELECT
+	 COUNT(DATEPART (DAY, birthday)) AS counter,
+	 DATEPART (DAY, birthday) AS dayNum
+ FROM Contact_
+ INNER JOIN User_
+ ON (Contact_.contactId=User_.contactId)
+ WHERE
+ (29 != DATEPART (DAY, birthday) OR 2 != DATEPART (MONTH, birthday))
+ AND
+ (status != 5 AND (DATEPART (MONTH, birthday) = ?))
+ GROUP BY DATEPART (DAY, birthday)
+</sql>
+<!-- End of SQL Server queries -->
+
+</custom-sql>
