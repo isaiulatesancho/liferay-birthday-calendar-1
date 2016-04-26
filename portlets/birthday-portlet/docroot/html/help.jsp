@@ -11,8 +11,6 @@
 		</aui:col>
 		<aui:col width="80">
 			<p>
-			ERASE
-			
 			Thank you for using this application.<br/>
 			We welcome feature/bug reports concerning this app and other improvements you may want. 
 			Discussion helps clarify the ways the app can be used and also helps define directions for future development.<br/></br>
