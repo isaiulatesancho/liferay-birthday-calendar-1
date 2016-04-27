@@ -6,10 +6,12 @@
 
 <aui:container>
 	<aui:row>
-		<aui:col width="20">
-			<img src="<%=renderRequest.getContextPath()%>/rivetlogic-logo.png"/>
-		</aui:col>
-		<aui:col width="80">
+		<aui:col width="100">
+			<div class="text-center">
+				<a href="http://www.rivetlogic.com" target="_blank">
+					<img src="<%=renderRequest.getContextPath()%>/rivetlogic-logo.png" style="max-width:200px;margin-bottom:15px;"/>
+				</a>
+			</div>
 			<p>
 			Thank you for using this application.<br/>
 			We welcome feature/bug reports concerning this app and other improvements you may want. 
