@@ -35,7 +35,7 @@
   <div class="bday-view-container">
       
   </div>
-  <a class="btn btn-link btn-back" href="#"><i class="icon-chevron-left"></i> Back to today</a>
+  <a class="btn btn-link btn-back" href="#"><i class="icon-home"></i></a>
 
   <!-- TEMPLATES -->
   <script id="bday-big-date" type="text/x-handlebars-template">
