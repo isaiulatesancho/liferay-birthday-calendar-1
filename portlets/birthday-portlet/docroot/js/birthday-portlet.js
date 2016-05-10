@@ -1,4 +1,4 @@
-console.log('this is initiating');
+
 
 YUI.add('birthday-portlet', function (Y, NAME) {
     
@@ -269,11 +269,20 @@ YUI.add('birthday-portlet', function (Y, NAME) {
             
             // go to upcoming day
             this.one(VIEW_CONTAINER).delegate('click', function(e) {
-                e.preventDefault()
+                e.preventDefault();
                 var date = new Date(this.getAttribute('data-upcoming'));
                 self.set('viewMode', BirthdayPortlet.CONSTANTS.Daily);
                 self.set('currentDate', date);
             }, '.upcoming');
+            
+            // go back to today
+            this.one('.btn-back').on('click', function(e) {
+                e.preventDefault();
+                var date = new Date();
+                self.set('viewMode', BirthdayPortlet.CONSTANTS.Daily);
+                self.set('currentDate', date);
+            });
+            
         },
         
         /**
@@ -284,6 +293,7 @@ YUI.add('birthday-portlet', function (Y, NAME) {
          */
         renderUI: function() {
             this.one(VIEW_CONTAINER).empty();
+            this.one('.btn-back').removeClass('hidden').addClass('show');
             switch (this.get('viewMode')) {
                 case BirthdayPortlet.CONSTANTS.Daily:
                     this.renderDailyUI();
@@ -343,6 +353,11 @@ YUI.add('birthday-portlet', function (Y, NAME) {
                 self.one(VIEW_CONTAINER).append(TEMPLATES.dailyListTemplate(data));
                 self.one(VIEW_CONTAINER).append(TEMPLATES.footerTemplate(footer));
             });
+            
+            if(isToday){
+            	this.one('.btn-back').removeClass('show').addClass('hidden');
+            }
+            
         },
         
         /**

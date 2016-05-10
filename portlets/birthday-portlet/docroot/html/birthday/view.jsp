@@ -56,7 +56,7 @@
                                         <div class="bday-view-container">
                                             
                                         </div>
-                                        
+                                        <a class="btn btn-link btn-back" href="#"><i class="icon-chevron-left"></i> Back to today</a>
                                         
                                         <!-- TEMPLATES -->
                                         <script id="bday-big-date" type="text/x-handlebars-template">
@@ -74,7 +74,7 @@
                                             <ul class="nav nav-tabs nav-stacked">
                                                 {{#each users}}
                                                 <li class="active">
-                                                    <a href="javascript:void(0)" class="bday-person">
+                                                    <a href="{{#if profileUrl}}{{profileUrl}}{{else}}&num;{{/if}}" class="bday-person">
                                                         <img src="{{portrait}}" class="img-circle" alt="">
                                                         {{name}}
                                                     </a>
@@ -92,7 +92,7 @@
                                                     <ul class="content nav nav-tabs nav-stacked hidden">
                                                         {{#each users}}
                                                         <li class="active">
-                                                            <a href="javascript:void(0)" class="bday-person">
+                                                            <a href="{{#if profileUrl}}{{profileUrl}}{{else}}&num;{{/if}}" class="bday-person">
                                                                 <img src="{{portrait}}" class="img-circle" alt="">
                                                                 {{name}}
                                                             </a>

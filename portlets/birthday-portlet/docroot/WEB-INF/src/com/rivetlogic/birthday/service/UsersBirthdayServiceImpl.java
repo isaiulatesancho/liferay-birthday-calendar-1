@@ -197,6 +197,7 @@ public class UsersBirthdayServiceImpl implements UsersBirthdayService{
 				userBirthday.setUserBirthday(contact.getBirthday());
 				userBirthday.setName(contact.getFullName());
 				userBirthday.setPortrait(user.getPortraitURL(themeDisplay));
+				userBirthday.setProfileUrl(user.getDisplayURL(themeDisplay));
 				result.add(userBirthday);
 			}
 		}
