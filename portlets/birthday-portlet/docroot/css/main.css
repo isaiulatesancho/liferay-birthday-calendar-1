@@ -1,13 +1,5 @@
-.portlet-birthdays .portlet-topper {
-    background: #428bca;
-}
 
-.portlet-birthdays .portlet-content {
-    border: 1px solid #428bca;
-    border-top-width: 0;
-}
 .portlet-birthdays .view-mode {
-    max-width: 330px;
     width: 100%;
 }
 
