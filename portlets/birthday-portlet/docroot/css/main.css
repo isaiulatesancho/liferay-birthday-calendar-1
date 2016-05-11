@@ -106,6 +106,10 @@
     border-radius: 0;
 }
 
+.portlet-birthdays .accordionized .content li a.bday-person {
+	cursor: pointer;
+}
+
 .portlet-birthdays .accordionized .content li:first-child a {
     border-top: none;
 }
